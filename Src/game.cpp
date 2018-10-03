@@ -64,7 +64,8 @@ void Game::induceMovement() {
 	{
 		figureFlying->setHitEarth();
 		gameField->consumeFigure(figureFlying);
-		gameField->removeFilledRow();
+		notify("immobilized");
+		//gameField->removeFilledRow();
 	}
 
 }

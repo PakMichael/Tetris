@@ -8,8 +8,6 @@
 
 class Backstage: public Entity {
 private:
-	bool rowFilledFlag = false;
-	std::vector<int> rows;
 	std::vector<Primitive*> map;
 
 

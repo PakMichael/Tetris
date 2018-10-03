@@ -14,6 +14,7 @@ class Engine : public Observer{
 	Entity* playersFigure;
 	GLFWwindow* window;
 	bool redraw;
+	bool nudgeFigure;
 	int screenHeight, screenWidth;
 
 

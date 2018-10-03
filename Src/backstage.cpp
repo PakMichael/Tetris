@@ -2,15 +2,13 @@
 
 
 Backstage::Backstage(){
-	for (int a = 0; a < 100; ++a)rows.push_back(0);
+
 }
 
 void Backstage::consumeFigure(Figure* fig){
 	for (int a = 0; a < 8; ++a){
 		if (fig->getConstructAt(a) != 0){
 			Primitive* tmp = fig->getConstructAt(a);
-			int index = ((int)((tmp->getY() + 1)*100+0.05)/100.0f) / 0.05f;
-			rows[index]++;
 			map.push_back(tmp);
 		}
 
@@ -45,7 +43,7 @@ bool Backstage::collisionOccured(Figure* figureFlying){
 
  
 
-void Backstage::removeFilledRow(){
+void Backstage::removeFilledRow(){/*
 	for (int a = 0; a < rows.size(); ++a){
 		if (rows[a] > 5)
 		{
@@ -57,7 +55,7 @@ void Backstage::removeFilledRow(){
 				}
 			}
 		}
-	}
+	}*/
 }
 
 void Backstage::moveTo(int key){

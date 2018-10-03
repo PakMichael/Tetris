@@ -1,7 +1,7 @@
 #include "entity.h"
 
 Entity::Entity(){
-
+	mX = mY = 0;
 	angle = 0;
 	EPSILON = 0.01;
 	initializeShader();

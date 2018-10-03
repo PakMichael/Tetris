@@ -13,10 +13,10 @@ bool blueprints[7][8] = {   /* sorry for this :C */
 
 
 
-Figure::Figure(){
+Figure::Figure() {
 	cellSize = 0.05f;
 	srand(std::time(0));
-	tempX = cellSize*(rand() % 40 - 20);
+	tempX = cellSize * (rand() % 40 - 20);
 	tempY = 1;
 	speed = 1;//0.75;
 
@@ -36,61 +36,66 @@ Figure::Figure(){
 
 }
 
-Figure::~Figure(){
-	
+Figure::~Figure() {
+
 	std::cout << "destroy fig" << std::endl;
 }
 
-void Figure::init(){
+void Figure::init() {
 	t = std::thread(&Figure::freeFall, this);
 }
 
-void Figure::freeFall(){
+void Figure::freeFall() {
 	while (!collidedGround)
 	{
 		moveTo((int)'S');
 		clock_t now = clock() / CLOCKS_PER_SEC;
 		while (clock() / CLOCKS_PER_SEC - now < speed);
-
+	
 	}
+	//immobalize();
 
 }
-float Figure::getCellSize(){
+float Figure::getCellSize() {
 	return cellSize;
 }
 
-void Figure::moveTo(int key){
-	if (collidedGround && key != 'S'){ notify("immovable"); } //always called from main thread
+void Figure::immobalize() {
+	notify("immovable");
+}
+
+void Figure::moveTo(int key) {
+	if (collidedGround && key != 'S') { notify("immovable"); } //always called from main thread
 	if (collidedGround && key == 'S')return;
 	directionKey = key;
 	notify("moveTo");
 }
 
-void Figure::moveRight(){
+void Figure::moveRight() {
 	tempX += cellSize;
 	reconstruct();
 }
 
-void Figure::moveLeft(){
+void Figure::moveLeft() {
 	tempX -= cellSize;
 	reconstruct();
 }
 
-void Figure::moveDown(){
+void Figure::moveDown() {
 	tempY -= cellSize;
 	reconstruct();
 }
 
-void Figure::moveUp(){
+void Figure::moveUp() {
 	tempY += cellSize;
 	reconstruct();
 }
 
-void Figure::boostDown(){
+void Figure::boostDown() {
 	speed = 0;
 }
 
-void Figure::rotate(){
+void Figure::rotate() {
 	if (angle == 0)
 	{
 		angle = M_PI / 2;
@@ -104,7 +109,7 @@ void Figure::rotate(){
 
 }
 
-void Figure::reconstruct(){
+void Figure::reconstruct() {
 	for (int a = 0; a < 8; ++a)
 	{
 		if (points[a])
@@ -112,7 +117,7 @@ void Figure::reconstruct(){
 
 			if (angle == 0)
 			{
-				points[a]->setX(tempX + a*cellSize - cellSize * 4 * (a / 4));
+				points[a]->setX(tempX + a * cellSize - cellSize * 4 * (a / 4));
 				points[a]->setY(tempY - (a / 4)*cellSize);
 
 				if (points[a]->getY() < lowestPoint)
@@ -124,7 +129,7 @@ void Figure::reconstruct(){
 			else
 			{
 				points[a]->setX(tempX + (a / 4)*cellSize);
-				points[a]->setY(tempY + a*cellSize - cellSize * 4 * (a / 4));
+				points[a]->setY(tempY + a * cellSize - cellSize * 4 * (a / 4));
 
 				if (points[a]->getY() < lowestPoint)
 					lowestPoint = points[a]->getY();
@@ -138,25 +143,25 @@ void Figure::reconstruct(){
 
 }
 
-int Figure::getDirection(){
+int Figure::getDirection() {
 	return directionKey;
 }
 
-float Figure::getLowestPoint(){
+float Figure::getLowestPoint() {
 	return lowestPoint;
 }
 
-float Figure::getHighestPoint(){
+float Figure::getHighestPoint() {
 	return highestPoint;
 }
 
-void Figure::constructCarcass(){
+void Figure::constructCarcass() {
 	std::vector<Primitive*> carcass;  //possibly huge overhead along with some voulnrabilities 
 	for (int a = 0; a < 8; ++a)
 	{
 		if (blueprints[blueprintIndex][a])
 		{
-			float tmpX = a*cellSize - cellSize * 4 * (a / 4);
+			float tmpX = a * cellSize - cellSize * 4 * (a / 4);
 			float tmpY = -(a / 4)*cellSize;
 			carcass.push_back(new Square(tmpX, tmpY, cellSize));
 		}
@@ -168,15 +173,15 @@ void Figure::constructCarcass(){
 
 
 }
-bool Figure::intersects(Figure* f){
+bool Figure::intersects(Figure* f) {
 	for (int a = 0; a < 8; ++a)
 	{
 
 		if (this->getConstructAt(a))
 			for (int b = 0; b < 8; ++b)
 			{
-			if (f->getConstructAt(b))
-				if (*f->getConstructAt(b) == *this->getConstructAt(a))return true;
+				if (f->getConstructAt(b))
+					if (*f->getConstructAt(b) == *this->getConstructAt(a))return true;
 
 			}
 
@@ -184,7 +189,7 @@ bool Figure::intersects(Figure* f){
 	return false;
 }
 
-bool Figure::intersects(Point2D* point){
+bool Figure::intersects(Point2D* point) {
 	for (int a = 0; a < 8; ++a)
 	{
 
@@ -197,24 +202,24 @@ bool Figure::intersects(Point2D* point){
 	return false;
 }
 
-Point2D* Figure::getConstructAt(int index){
+Point2D* Figure::getConstructAt(int index) {
 	return points[index].get();
 }
 
-Point2D* Figure::getPredictedConstruct(int index){
+Point2D* Figure::getPredictedConstruct(int index) {
 	Point2D* temp;
-	if (angle == 0){
-		temp = new Point2D(tempX + index*cellSize - cellSize * 4 * (index / 4), tempY - (index / 4)*cellSize);
+	if (angle == 0) {
+		temp = new Point2D(tempX + index * cellSize - cellSize * 4 * (index / 4), tempY - (index / 4)*cellSize);
 	}
 	else {
-		temp = new Point2D(tempX + (index / 4)*cellSize, tempY + index*cellSize - cellSize * 4 * (index / 4));
+		temp = new Point2D(tempX + (index / 4)*cellSize, tempY + index * cellSize - cellSize * 4 * (index / 4));
 
 	}
 	return temp;
 }
 
- 
-bool Figure::crosses(float pX, float pY){
+
+bool Figure::crosses(float pX, float pY) {
 	// TO REDO
 	// Only one parameter is used! 
 	// Add selective x or y, or both x and y
@@ -230,31 +235,31 @@ bool Figure::crosses(float pX, float pY){
 	return false;
 }
 
-void Figure::setHitEarth(){
+void Figure::setHitEarth() {
 	collidedGround = true;
 	tempX = mX;
 	tempY = mY;
 	reconstruct();
 }
 
-void Figure::getCoordinates(float& x, float& y){
+void Figure::getCoordinates(float& x, float& y) {
 	x = mX;
 	y = mY;
 
 }
 
-void Figure::getPredictedCoordinates(float& x, float& y){
+void Figure::getPredictedCoordinates(float& x, float& y) {
 	x = tempX;
 	y = tempY;
 
 }
 
 
-bool Figure::hitEarth(){
+bool Figure::hitEarth() {
 	return collidedGround;
 }
 
-void Figure::fulfilProphecy(){
+void Figure::fulfilProphecy() {
 	mX = tempX;
 	mY = tempY;
 	reconstruct();

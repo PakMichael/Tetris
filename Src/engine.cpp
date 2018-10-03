@@ -9,6 +9,7 @@ Engine::Engine() {
 	glewInitialize();
 	eventsInitialize();
 	redraw = true;
+	nudgeFigure = false;
 }
 
 
@@ -17,6 +18,11 @@ void Engine::start() {
 	while (!glfwWindowShouldClose(window))
 	{
 		glfwPollEvents();
+		if (nudgeFigure)
+		{
+			playersFigure->moveTo((int)'A');
+			nudgeFigure = false;
+		}
 		if (redraw)
 		{
 			redraw = false;
@@ -107,5 +113,6 @@ void Engine::update(std::string msg, void* obj) {
 	if (msg == "updPlayerFigure") { updatePlayerFigure((Entity*)obj); return; }
 	if (msg == "updBackstage") { updateBackstage((Entity*)obj); return; }
 	if (msg == "init") { start(); return; }
+	if (msg == "immobilized") { nudgeFigure = true; };
 }
 

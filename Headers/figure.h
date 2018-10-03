@@ -62,6 +62,7 @@ private:
 	void freeFall();
 	void moveTo(int key);
 	void constructCarcass();
+	void immobalize();
 
 };
 

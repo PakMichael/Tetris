@@ -24,3 +24,12 @@ target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/Libraries/glew32s.li
 target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/Libraries/glfw3.lib)
 target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/Libraries/glfw3dll.lib)
 target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/Libraries/opengl32.lib)
+
+
+add_custom_command(TARGET Tetris POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${CMAKE_SOURCE_DIR}/Shaders $<TARGET_FILE_DIR:Tetris>)
+					   
+add_custom_command(TARGET Tetris POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${CMAKE_SOURCE_DIR}/DLibs $<TARGET_FILE_DIR:Tetris>)					   

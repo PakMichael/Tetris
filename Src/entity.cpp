@@ -8,7 +8,7 @@ Entity::Entity(){
 }
 
 void Entity::initializeShader(){
-	shader = new Shader("C:/Users/Michael/Documents/Visual Studio 2013/Projects/Test/Test/transformation.vs", "C:/Users/Michael/Documents/Visual Studio 2013/Projects/Test/Test/transformation.frag");
+	shader = new Shader("G:/Downloads/Tetris-master/Tetris-master/Shaders/vertexShader.glsl", "G:/Downloads/Tetris-master/Tetris-master/Shaders/fragmentShader.glsl");
 }
 
 

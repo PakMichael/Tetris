@@ -28,7 +28,7 @@ target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/Libraries/opengl32.l
 
 add_custom_command(TARGET Tetris POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${CMAKE_SOURCE_DIR}/Shaders $<TARGET_FILE_DIR:Tetris>)
+                       ${CMAKE_SOURCE_DIR}/Shaders $<TARGET_FILE_DIR:Tetris>/Shaders)
 					   
 add_custom_command(TARGET Tetris POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory

@@ -8,7 +8,7 @@ Entity::Entity(){
 }
 
 void Entity::initializeShader(){
-	shader = new Shader("G:/Downloads/Tetris-master/Tetris-master/Shaders/vertexShader.glsl", "G:/Downloads/Tetris-master/Tetris-master/Shaders/fragmentShader.glsl");
+	shader = new Shader("../Shaders/vertexShader.glsl", "../Shaders/fragmentShader.glsl");
 }
 
 

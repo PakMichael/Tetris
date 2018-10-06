@@ -6,10 +6,14 @@
 #include <vector>
 
 
-class Backstage: public Entity {
+class Backstage : public Entity {
 private:
+	bool cellsTaken[22][10];
 	std::vector<Primitive*> map;
-
+	int height;
+	int width;
+	float relativeCellSizeX;
+	float relativeCellSizeY;
 
 public:
 	Backstage();
@@ -21,7 +25,8 @@ public:
 
 
 	int scaledPositionToIndex(float scale);
-
+	void setScreenSize(int height, int width);
+	void setCellSize(float relativeCellSizeX, float relativeCellSizeY);
 };
 
 

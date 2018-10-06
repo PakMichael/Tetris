@@ -33,7 +33,7 @@ private:
 	void eventsInitialize();
 	void windowInitialize(int* h, int* w);
 	void update(std::string msg, void* obj);
-
+	void Engine::initializeGL();
 
 };
 

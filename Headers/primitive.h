@@ -3,7 +3,15 @@
 
 #include <iostream>
 
-class Primitive{
+namespace Arithmetics {
+ 
+static bool floatEquals(float a, float b) {
+		return fabs(a - b) < 0.01;
+	}
+}
+
+
+class Primitive {
 protected:
 	float x, y;
 	int vertices;
@@ -15,7 +23,7 @@ public:
 };
 
 
-class Point2D : public Primitive{
+class Point2D : public Primitive {
 
 
 public:
@@ -25,14 +33,15 @@ public:
 	float getY();
 	void setX(float pX);
 	void setY(float pY);
-	float getVertexAt(int index){ return 0.0; }
+	float getVertexAt(int index) { return 0.0; }
 	bool operator==(Point2D& b);
 };
 
 
-class Square : public Primitive{
+class Square : public Primitive {
 private:
 	float sidesSize;
+protected:
 	float matrix[12]; // {x, y ,z=0} * 4
 
 public:
@@ -52,5 +61,15 @@ private:
 };
 
 
+class Rectangle : public Square {
+private:
+	float width;
+	float height;
+public:
+	Rectangle(float x, float y, float width, float height);
+	~Rectangle();
+private:
+	void build();
+};
 
 #endif 

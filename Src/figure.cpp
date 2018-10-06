@@ -13,15 +13,14 @@ bool blueprints[7][8] = {   /* sorry for this :C */
 
 
 
-Figure::Figure() {
-	cellSize = 0.05f;
-	srand(std::time(0));
-	tempX = cellSize * (rand() % 40 - 20);
+Figure::Figure(float height, float width) {
+	this->relativeHeight = height;
+	this->relativeWidth = width;
+	tempX = relativeWidth * (rand() % 40 - 20);
 	tempY = 1;
 	speed = 1;//0.75;
 
 	collidedGround = false;
-	srand(std::time(0));
 	blueprintIndex = rand() % 7;
 	constructCarcass();
 
@@ -51,13 +50,13 @@ void Figure::freeFall() {
 		moveTo((int)'S');
 		clock_t now = clock() / CLOCKS_PER_SEC;
 		while (clock() / CLOCKS_PER_SEC - now < speed);
-	
+
 	}
 	//immobalize();
 
 }
-float Figure::getCellSize() {
-	return cellSize;
+Point2D Figure::getCellSize() {
+	return Point2D(relativeWidth, relativeHeight);
 }
 
 void Figure::immobalize() {
@@ -72,22 +71,22 @@ void Figure::moveTo(int key) {
 }
 
 void Figure::moveRight() {
-	tempX += cellSize;
+	tempX += relativeWidth;
 	reconstruct();
 }
 
 void Figure::moveLeft() {
-	tempX -= cellSize;
+	tempX -= relativeWidth;
 	reconstruct();
 }
 
 void Figure::moveDown() {
-	tempY -= cellSize;
+	tempY -= relativeHeight;
 	reconstruct();
 }
 
 void Figure::moveUp() {
-	tempY += cellSize;
+	tempY += relativeHeight;
 	reconstruct();
 }
 
@@ -104,21 +103,20 @@ void Figure::rotate() {
 	{
 		angle = 0.0;
 	}
-
 	reconstruct();
 
 }
 
 void Figure::reconstruct() {
+	//Only affects model's position
 	for (int a = 0; a < 8; ++a)
 	{
 		if (points[a])
 		{
-
 			if (angle == 0)
 			{
-				points[a]->setX(tempX + a * cellSize - cellSize * 4 * (a / 4));
-				points[a]->setY(tempY - (a / 4)*cellSize);
+				points[a]->setX(tempX + a * relativeWidth - relativeWidth * 4 * (a / 4));
+				points[a]->setY(tempY - (a / 4)*relativeHeight);
 
 				if (points[a]->getY() < lowestPoint)
 					lowestPoint = points[a]->getY();
@@ -128,8 +126,9 @@ void Figure::reconstruct() {
 			}
 			else
 			{
-				points[a]->setX(tempX + (a / 4)*cellSize);
-				points[a]->setY(tempY + a * cellSize - cellSize * 4 * (a / 4));
+
+				points[a]->setX(tempX + (a / 4) * 2);
+				points[a]->setY(tempY + a * relativeHeight - relativeHeight * 4 * (a / 4));
 
 				if (points[a]->getY() < lowestPoint)
 					lowestPoint = points[a]->getY();
@@ -156,14 +155,17 @@ float Figure::getHighestPoint() {
 }
 
 void Figure::constructCarcass() {
+	//runs once at the beginning 
+	//later only visually translates image without any change in model
+
 	std::vector<Primitive*> carcass;  //possibly huge overhead along with some voulnrabilities 
 	for (int a = 0; a < 8; ++a)
 	{
 		if (blueprints[blueprintIndex][a])
 		{
-			float tmpX = a * cellSize - cellSize * 4 * (a / 4);
-			float tmpY = -(a / 4)*cellSize;
-			carcass.push_back(new Square(tmpX, tmpY, cellSize));
+			float tmpX = a * relativeWidth - relativeWidth * 4 * (a / 4);
+			float tmpY = -(a / 4)*relativeHeight;
+			carcass.push_back(new Rectangle(tmpX, tmpY, relativeWidth, relativeHeight));
 		}
 
 
@@ -209,10 +211,10 @@ Point2D* Figure::getConstructAt(int index) {
 Point2D* Figure::getPredictedConstruct(int index) {
 	Point2D* temp;
 	if (angle == 0) {
-		temp = new Point2D(tempX + index * cellSize - cellSize * 4 * (index / 4), tempY - (index / 4)*cellSize);
+		temp = new Point2D(tempX + index * relativeWidth - relativeWidth * 4 * (index / 4), tempY - (index / 4)*relativeHeight);
 	}
 	else {
-		temp = new Point2D(tempX + (index / 4)*cellSize, tempY + index * cellSize - cellSize * 4 * (index / 4));
+		temp = new Point2D(tempX + (index / 4)*relativeWidth, tempY + index * relativeHeight - relativeHeight * 4 * (index / 4));
 
 	}
 	return temp;

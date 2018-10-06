@@ -29,12 +29,11 @@ public:
 		{
 			// Open files
 			vShaderFile.open(vertexPath);
-			if (!vShaderFile) {
-				std::cout << "didn't open" << std::endl;
-				throw new std::exception();
-
-			}
 			fShaderFile.open(fragmentPath);
+			if (!vShaderFile || !fShaderFile) {
+				throw new std::exception("Couldn't open Shader.glsl file;\n If occured in VS change working directory to /Debug");
+			}
+
 			std::stringstream vShaderStream, fShaderStream;
 			// Read file's buffer contents into streams
 			vShaderStream << vShaderFile.rdbuf();

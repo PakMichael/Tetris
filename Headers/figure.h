@@ -20,7 +20,7 @@ class Figure : public Observable, public Entity{
 
 	int directionKey;
 	float speed;
-	float cellSize;
+
 	float lowestPoint;
 	float highestPoint;
 	bool collidedGround;
@@ -31,7 +31,7 @@ public:
 	std::thread t;
 
 public:
-	Figure();
+	Figure(float height, float width);
 	~Figure();
 	void getCoordinates(float& x, float& y);
 	bool hitEarth();
@@ -51,7 +51,7 @@ public:
 	bool intersects(Point2D* point);
 	bool crosses(float x, float y);
 	void reconstruct();
-	float getCellSize();
+	Point2D getCellSize();
 	Point2D* getConstructAt(int index);
 	Point2D* getPredictedConstruct(int index);
 	float getLowestPoint();

@@ -13,8 +13,8 @@
 class Game : public Observer, public Observable {
 	Figure* figureFlying;
 	Backstage* gameField;
-
-
+	float relativeCellSizeX = 0.05f;
+	float relativeCellSizeY = 0.05f;
 
 public:
 	void init();

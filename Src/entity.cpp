@@ -8,7 +8,8 @@ Entity::Entity(){
 }
 
 void Entity::initializeShader(){
-	shader = new Shader("Shaders/vertexShader.glsl", "Shaders/fragmentShader.glsl");
+
+	shader = new Shader("Shaders/vertexShader.glsl", "Shaders/fragmentShader.glsl"); 
 }
 
 

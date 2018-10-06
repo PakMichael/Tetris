@@ -13,6 +13,8 @@
 class Entity{
 
 protected:
+	float relativeWidth;
+	float relativeHeight;
 	float mX, mY;
 	float angle;
 	float EPSILON;

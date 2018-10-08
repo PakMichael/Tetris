@@ -34,7 +34,7 @@ public:
 				throw new std::exception("Couldn't open Shader.glsl file;\n If occured in VS change working directory to /Debug");
 			}
 
-			std::stringstream vShaderStream, fShaderStream;
+			std::stringstream vShaderStream, fShaderStream; //if you get exception at this point in your environment change the working directory to Debug
 			// Read file's buffer contents into streams
 			vShaderStream << vShaderFile.rdbuf();
 			fShaderStream << fShaderFile.rdbuf();

@@ -19,7 +19,7 @@ void Game::init() {
 
 
 void Game::createFigure() {
-	Figure* tmp = new Figure( relativeCellSizeY, relativeCellSizeX);
+	Figure* tmp = new Figure(relativeCellSizeY, relativeCellSizeX);
 	tmp->addObserver(this);
 	figureFlying = tmp;
 	notify("updPlayerFigure", figureFlying);
@@ -52,16 +52,15 @@ void Game::induceMovement() {
 		figureFlying->moveUp();
 		break;
 	case 'E':
-		figureFlying->setHitEarth();
+		//figureFlying->setHitEarth();
 		break;
 	}
 
-	if (!gameField->collisionOccured(figureFlying) && !figureFlying->crosses(0, -1) && !figureFlying->hitEarth())
+	if (!gameField->collisionOccured(figureFlying))
 	{
 		figureFlying->fulfilProphecy();
 
-		string tmp = "redraw";
-		notify(tmp);
+		notify("redraw");
 		/*	float tmpx;
 			float tmpy;
 			figureFlying->getCoordinates(tmpx, tmpy);
@@ -70,7 +69,6 @@ void Game::induceMovement() {
 	}
 	else
 	{
-		figureFlying->setHitEarth();
 		gameField->consumeFigure(figureFlying);
 		notify("immobilized");
 		//gameField->removeFilledRow();
@@ -84,4 +82,5 @@ void Game::update(std::string msg, void* obj) {
 		gameField->reconstructBackstage();
 		createFigure();
 	}
+	if (msg == "drop")notify("drop");
 }

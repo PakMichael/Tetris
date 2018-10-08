@@ -18,14 +18,14 @@ void Entity::applyTransitions(){
 	glm::mat4 transform;
 
 	float tmp = 0;
-	if (angle != 0)tmp = 0.05;
+ 	if (angle != 0)tmp = 0.05;
 	transform = glm::translate(transform, glm::vec3(mX, mY - tmp, 0.0f));
 	GLint transformLoc = glGetUniformLocation(shader->Program, "transform");
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-
+	/*
 	transform = glm::rotate(transform, angle, glm::vec3(0, 0, 1.0f));
 	transformLoc = glGetUniformLocation(shader->Program, "transform");
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));*/
 }
 
 void Entity::outline(){

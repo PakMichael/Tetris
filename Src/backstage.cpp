@@ -2,15 +2,18 @@
 
 
 Backstage::Backstage() {
-
+	relativeCellSizeX = relativeCellSizeY = 0.05;
+	for (int a = 0; a < 50; ++a)
+		map.push_back(new Rectangle(a*0.05-1 , -1, 0.05, 0.05));
+	reconstructBackstage();
 }
 
 
 
 void Backstage::consumeFigure(Figure* fig) {
 	for (int a = 0; a < 8; ++a) {
-		if (fig->getConstructAt(a) != 0) {
-			Primitive* tmp = fig->getConstructAt(a);
+		if (fig->getDimensionsOfTile(a, fig->getAngle()) != 0) {
+			Rectangle* tmp = new Rectangle(fig->getDimensionsOfTile(a, fig->getAngle())->getX(), fig->getDimensionsOfTile(a, fig->getAngle())->getY(), 0.05f, 0.05f);
 			map.push_back(tmp);
 		}
 
@@ -23,7 +26,7 @@ void Backstage::reconstructBackstage() {
 	for (Primitive* m : map)
 	{
 		if (m != NULL)
-			carcass.push_back(new Rectangle(m->getX(), m->getY(), relativeCellSizeX,relativeCellSizeY));
+			carcass.push_back(new Rectangle(m->getX(), m->getY(), relativeCellSizeX, relativeCellSizeY));
 
 
 
@@ -33,12 +36,9 @@ void Backstage::reconstructBackstage() {
 
 
 bool Backstage::collisionOccured(Figure* figureFlying) {
-	for (Primitive* m : map)
-		for (int b = 0; b < 8; ++b) {
-			if (m != NULL)
-				if (figureFlying->getConstructAt(b) != 0)
-					if ((*(Point2D*)m) == *figureFlying->getPredictedConstruct(b))return true;
-		}
+	for (int a = 0; a < map.size(); a++) {
+		if (figureFlying->intersects(map[a]))return true;
+	}
 	return false;
 }
 

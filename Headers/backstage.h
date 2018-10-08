@@ -9,7 +9,7 @@
 class Backstage : public Entity {
 private:
 	bool cellsTaken[22][10];
-	std::vector<Primitive*> map;
+	std::vector<Rectangle*> map;
 	int height;
 	int width;
 	float relativeCellSizeX;

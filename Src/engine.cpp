@@ -23,8 +23,12 @@ void Engine::start() {
 		glfwPollEvents();
 		if (nudgeFigure)
 		{
-			playersFigure->moveTo((int)'A');
+			playersFigure->moveTo((int)'E');
 			nudgeFigure = false;
+		}
+		if (dropFigure) {
+			playersFigure->moveTo((int)'S');
+			dropFigure = false;
 		}
 		if (redraw)
 		{
@@ -116,6 +120,7 @@ void Engine::update(std::string msg, void* obj) {
 	if (msg == "updPlayerFigure") { updatePlayerFigure((Entity*)obj); return; }
 	if (msg == "updBackstage") { updateBackstage((Entity*)obj); return; }
 	if (msg == "immobilized") { nudgeFigure = true; };
+	if (msg == "drop") { dropFigure = true; };
 	if (msg == "start") { start(); };
 	if (msg == "init")
 	{

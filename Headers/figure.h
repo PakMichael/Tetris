@@ -18,51 +18,46 @@ extern bool blueprints[7][8];
 class Figure : public Observable, public Entity{
 
 
+	int blueprintIndex;
 	int directionKey;
 	float speed;
 
-	float lowestPoint;
-	float highestPoint;
 	bool collidedGround;
+
 	float tempX, tempY;
-	std::shared_ptr<Point2D> points[8];
-	int blueprintIndex;
+
+	std::shared_ptr<Rectangle> tiles[8];
+
+
 public:
 	std::thread t;
 
 public:
 	Figure(float height, float width);
 	~Figure();
-	void getCoordinates(float& x, float& y);
-	bool hitEarth();
 
+	void boostDown();
 	void moveRight();
 	void moveLeft();
 	void moveDown();
 	void moveUp();
-	int getDirection();
-	void init();
-	void setHitEarth();
-	void boostDown();
-	void getPredictedCoordinates(float& x, float& y);
-	void fulfilProphecy();
 	void rotate();
-	bool intersects(Figure* f);
-	bool intersects(Point2D* point);
-	bool crosses(float x, float y);
-	void reconstruct();
-	Point2D getCellSize();
-	Point2D* getConstructAt(int index);
-	Point2D* getPredictedConstruct(int index);
-	float getLowestPoint();
-	float getHighestPoint();
 
+	int getDirection();
+
+	void init();
+
+
+	void fulfilProphecy();
+
+	bool intersects(Rectangle* rec);
+	Point2D* getDimensionsOfTile(int index, float angle);
+	float getAngle();
 
 private:
 	void freeFall();
 	void moveTo(int key);
 	void constructCarcass();
-	void immobalize();
 
 };
 

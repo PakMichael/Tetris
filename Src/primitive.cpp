@@ -110,3 +110,5 @@ void Rectangle::build() {
 			matrix[index++] = 0;//z			
 		}
 }
+
+ 

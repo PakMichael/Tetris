@@ -32,4 +32,5 @@ add_custom_command(TARGET Tetris POST_BUILD
 					   
 add_custom_command(TARGET Tetris POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${CMAKE_SOURCE_DIR}/DLibs $<TARGET_FILE_DIR:Tetris>)					   
+                       ${CMAKE_SOURCE_DIR}/DLibs $<TARGET_FILE_DIR:Tetris>)					 
+					   
